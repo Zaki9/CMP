@@ -1,11 +1,11 @@
 package com.jetbrains.greeting
 
-import KoinIntitializer
+import koin.KoinInitializer
 import android.app.Application
 
 class MyApp : Application() {
     override fun onCreate() {
         super.onCreate()
-        KoinIntitializer(applicationContext).init()
+        KoinInitializer(applicationContext).init()
     }
 }

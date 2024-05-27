@@ -1,23 +1,29 @@
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Button
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import org.jetbrains.compose.resources.painterResource
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import article.Article
+import coil3.compose.AsyncImage
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
-import cmpfirst.composeapp.generated.resources.Res
-import cmpfirst.composeapp.generated.resources.compose_multiplatform
 import org.koin.compose.KoinContext
-import org.koin.compose.currentKoinScope
-import org.koin.compose.koinInject
+import utils.koinInjectViewModel
+import utils.toFormattedDate
+import viewmodel.BaseViewModel
 
 @Composable
 @Preview
@@ -25,19 +31,15 @@ fun App() {
     MaterialTheme {
         KoinContext {
             val mViewModel = koinInjectViewModel<BaseViewModel>()
-            var showContent by remember { mutableStateOf(false) }
-            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                Button(onClick = { showContent = !showContent }) {
-                    Text("Click me!")
-                }
-                AnimatedVisibility(showContent) {
-                    val greeting = remember { Greeting().greet() }
-                    Column(
-                        Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Image(painterResource(Res.drawable.compose_multiplatform), null)
-                        Text("Compose: $greeting")
-                        Text(mViewModel.callFromVM())
+            val mArticleList = mViewModel.mNewsArticleState.collectAsState()
+            LaunchedEffect(Unit) {
+                mViewModel.fetchNewsArticles()
+            }
+
+            LazyColumn(Modifier.fillMaxWidth().padding(16.dp)) {
+                mArticleList.value.forEach {
+                    item {
+                        ArticleRow(it)
                     }
                 }
             }
@@ -46,9 +48,31 @@ fun App() {
 }
 
 @Composable
-inline fun <reified T : ViewModel> koinInjectViewModel(): T {
-    val scope = currentKoinScope()
-    return viewModel {
-        scope.get<T>()
+private fun ArticleRow(it: Article) {
+    Column {
+        AsyncImage(
+            it.urlToImage,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxWidth().padding(4.dp)
+        )
+        Spacer(Modifier.height(4.dp))
+        Text(
+            it.title,
+            style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontSize = 22.sp
+            )
+        )
+        Spacer(Modifier.height(4.dp))
+        Text(it.description)
+        Spacer(Modifier.height(4.dp))
+        Text(
+            it.publishedAt.toFormattedDate(),
+            modifier = Modifier.align(Alignment.End),
+            style = TextStyle(
+                color = Color.Gray
+            )
+        )
     }
 }

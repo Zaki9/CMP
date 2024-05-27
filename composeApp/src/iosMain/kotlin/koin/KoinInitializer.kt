@@ -1,7 +1,9 @@
+package koin
+
+import appModule
 import org.koin.core.context.startKoin
 
-actual class KoinIntitializer {
-
+actual class KoinInitializer {
     actual fun init() {
         startKoin {
             modules(
