@@ -14,6 +14,7 @@ coilCompose = "3.0.0-alpha06"
 compose-plugin = "1.6.10"
 junit = "4.13.2"
 kotlin = "2.0.0"
+kotlinKonfigPlugin = "0.15.1"
 kotlinLoggingJvm = "5.1.0"
 kotlinxDatetime = "0.6.0"
 ktor = "2.3.5"
@@ -26,6 +27,7 @@ napier = "2.7.1"
 navigationCompose = "2.7.0-alpha03"
 
 [libraries]
+buildkonfig-gradle-plugin = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version.ref = "kotlinKonfigPlugin" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coilCompose" }
 kotlin-logging-jvm = { module = "io.github.oshai:kotlin-logging-jvm", version.ref = "kotlinLoggingJvm" }
@@ -63,3 +65,4 @@ jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlinKonfigPlugin = { id = "com.codingfeline.buildkonfig", version.ref = "kotlinKonfigPlugin" }

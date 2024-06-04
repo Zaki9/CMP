@@ -1,6 +1,16 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath(libs.buildkonfig.gradle.plugin)
+    }
+}
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -8,6 +18,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.kotlinKonfigPlugin)
 }
 
 kotlin {
@@ -49,7 +60,7 @@ kotlin {
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
             api(libs.koin.core)
-            implementation (libs.napier)
+            implementation(libs.napier)
             implementation(libs.koin.compose)
             implementation(libs.lifecycle.viewmodel)
             implementation(libs.navigation.compose)
@@ -98,5 +109,15 @@ android {
     }
     dependencies {
         debugImplementation(compose.uiTooling)
+    }
+}
+buildkonfig {
+    val propertiesProj = Properties()
+    packageName = "com.jetbrains.greeting"
+
+    defaultConfigs {
+        propertiesProj.load(project.rootProject.file("local.properties").inputStream())
+        val apiKey: String = propertiesProj.getProperty("API_KEY")
+        buildConfigField(STRING, "API_KEY", apiKey)
     }
 }
