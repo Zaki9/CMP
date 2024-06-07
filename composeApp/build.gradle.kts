@@ -19,9 +19,15 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.kotlinKonfigPlugin)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
+    sourceSets.commonMain {
+        kotlin.srcDir("build/generated/ksp/metadata")
+    }
+
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
@@ -49,6 +55,7 @@ kotlin {
             implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.android)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.room.runtime.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -68,6 +75,8 @@ kotlin {
             implementation(libs.ktor.content.negaotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.kotlinx.datetime)
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -119,5 +128,16 @@ buildkonfig {
         propertiesProj.load(project.rootProject.file("local.properties").inputStream())
         val apiKey: String = propertiesProj.getProperty("API_KEY")
         buildConfigField(STRING, "API_KEY", apiKey)
+    }
+}
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+dependencies {
+    add("kspCommonMainMetadata", libs.room.compiler)
+}
+tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().configureEach {
+    if (name != "kspCommonMainKotlinMetadata" ) {
+        dependsOn("kspCommonMainKotlinMetadata")
     }
 }

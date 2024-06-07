@@ -25,7 +25,9 @@ koinCompose = "3.6.0-alpha3"
 koinComposeMultiplatform = "1.2.0-alpha3"
 napier = "2.7.1"
 navigationCompose = "2.7.0-alpha03"
-
+room = "2.7.0-alpha02"
+ksp = "2.0.0-1.0.21"
+sqlite = "2.5.0-SNAPSHOT"
 [libraries]
 buildkonfig-gradle-plugin = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version.ref = "kotlinKonfigPlugin" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
@@ -58,6 +60,11 @@ ktor-content-negaotiation = { module = "io.ktor:ktor-client-content-negotiation"
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-runtime-android = { module = "androidx.room:room-runtime-android", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
@@ -66,3 +73,5 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlinKonfigPlugin = { id = "com.codingfeline.buildkonfig", version.ref = "kotlinKonfigPlugin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+room = { id = "androidx.room", version.ref = "room" }
