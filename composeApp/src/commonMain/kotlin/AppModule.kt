@@ -19,5 +19,5 @@ val appModule = module {
         }
     }
     single { KmmHttpService(get()) }
-    single { DataRepository(get()) }
+    single { DataRepository(get(), get()) }
 }
