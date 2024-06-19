@@ -1,7 +1,6 @@
 package koin
 
 import android.content.Context
-import appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -12,7 +11,7 @@ actual class KoinInitializer(
         startKoin {
             androidContext(context)
             modules(
-                appModule, viewModelModule
+                appModule//, viewModelModule
             )
         }
     }

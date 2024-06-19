@@ -1,6 +1,6 @@
-package service
+package data.service
 
-import article.ArticleResponse
+import data.model.ArticleResponse
 import com.jetbrains.greeting.BuildKonfig.API_KEY
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body

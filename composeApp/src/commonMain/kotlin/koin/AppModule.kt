@@ -1,10 +1,14 @@
+package koin
+
+import data.repository.ArticleRepoImpl
+import domain.usecase.GetArticleListUseCase
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
-import repository.DataRepository
-import service.KmmHttpService
+import presentation.viewmodel.ArticleViewModel
+import data.service.KmmHttpService
 
 val appModule = module {
     single<HttpClient> {
@@ -19,5 +23,7 @@ val appModule = module {
         }
     }
     single { KmmHttpService(get()) }
-    single { DataRepository(get()) }
+    single { ArticleRepoImpl(get()) }
+    single { GetArticleListUseCase(get()) }
+    single { ArticleViewModel(get()) }
 }
